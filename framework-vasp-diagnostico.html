@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framework BCB 519/2025 - VASPs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #fafafa;
+            color: #2c2c2c;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+        }
+
+        .nav-item {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #999;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            color: #333;
+        }
+
+        .nav-item.active {
+            color: #1a1a1a;
+            border-bottom-color: #1a1a1a;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 3rem 2rem;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Framework View */
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .framework-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.7rem;
+            color: #ccc;
+            font-family: 'Courier New', monospace;
+        }
+
+        .card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .card-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .keyword {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: #f5f5f5;
+            color: #666;
+            border: 1px solid #e8e8e8;
+        }
+
+        .connection-map {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .connection-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 2rem;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .flow-step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .step-number {
+            font-size: 0.75rem;
+            color: #999;
+            text-align: right;
+            padding-top: 0.25rem;
+        }
+
+        .step-content {
+            background: #fafafa;
+            padding: 1.5rem;
+            border-left: 2px solid #e0e0e0;
+        }
+
+        .step-title {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .step-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .link-tag {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            background: white;
+            color: #999;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Diagnostic Form */
+        .diagnostic-form {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 3rem;
+        }
+
+        .form-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+            font-size: 0.85rem;
+            color: #333;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #999;
+            background: white;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-radio-group {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-radio {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-radio input[type="radio"] {
+            margin: 0;
+        }
+
+        .form-checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: white;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            font-size: 0.85rem;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #999;
+        }
+
+        /* Report */
+        .report {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 3rem;
+            display: none;
+        }
+
+        .report.active {
+            display: block;
+        }
+
+        .report-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .report-title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .report-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .report-section {
+            margin-bottom: 3rem;
+        }
+
+        .report-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 1.5rem;
+        }
+
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .assessment-item {
+            background: #fafafa;
+            padding: 1.5rem;
+            border-left: 2px solid #e0e0e0;
+        }
+
+        .assessment-item.compliant {
+            border-left-color: #4a4a4a;
+        }
+
+        .assessment-item.attention {
+            border-left-color: #999;
+        }
+
+        .assessment-item.critical {
+            border-left-color: #666;
+        }
+
+        .assessment-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .assessment-label.compliant {
+            color: #4a4a4a;
+        }
+
+        .assessment-label.attention {
+            color: #999;
+        }
+
+        .assessment-label.critical {
+            color: #666;
+        }
+
+        .assessment-title {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .assessment-description {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendation-item {
+            background: #fafafa;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 2px solid #e0e0e0;
+        }
+
+        .recommendation-priority {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-title {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-description {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .timeline-estimate {
+            background: #fafafa;
+            padding: 1.5rem;
+            border-left: 2px solid #e0e0e0;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-phase {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-duration {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+            }
+
+            .framework-grid,
+            .assessment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-step {
+                grid-template-columns: 1fr;
+            }
+
+            .step-number {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="title">Resolução BCB 519/2025</div>
+            <div class="subtitle">Framework de Autorização e Diagnóstico Operacional</div>
+        </div>
+    </div>
+
+    <div class="nav">
+        <button class="nav-item active" onclick="switchView('framework')">Framework</button>
+        <button class="nav-item" onclick="switchView('diagnostic')">Diagnóstico</button>
+    </div>
+
+    <div class="container">
+        <!-- FRAMEWORK VIEW -->
+        <div id="framework" class="content-section active">
+            <div style="padding: 2rem 0;">
+                <div class="connection-map">
+                    <div class="connection-title">Fluxo de Processo</div>
+                    <div class="process-flow">
+                        <div class="flow-step">
+                            <div class="step-number">Entrada</div>
+                            <div class="step-content">
+                                <div class="step-title">Classificação da Instituição</div>
+                                <div class="step-description">
+                                    Determinar tipo (VASP, corretora câmbio, corretora TVM, distribuidora TVM) e status operacional (nova vs. ativa pré-regulação)
+                                </div>
+                                <div class="step-links">
+                                    <span class="link-tag">Art. 1º</span>
+                                    <span class="link-tag">4 tipos</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-number">Bifurcação</div>
+                            <div class="step-content">
+                                <div class="step-title">Escolha do Processo</div>
+                                <div class="step-description">
+                                    VASP ativa antes de 02/02/2026 → Processo bifásico (Art. 26)<br>
+                                    Qualquer outra situação → Processo regular
+                                </div>
+                                <div class="step-links">
+                                    <span class="link-tag">Art. 26</span>
+                                    <span class="link-tag">Elegibilidade temporal</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-number">Análise</div>
+                            <div class="step-content">
+                                <div class="step-title">Avaliação de Requisitos</div>
+                                <div class="step-description">
+                                    10 requisitos fundamentais: capacidade financeira, origem lícita, viabilidade, infraestrutura TI, governança, reputação, conhecimento técnico, capacitação, capital mínimo, endereço físico
+                                </div>
+                                <div class="step-links">
+                                    <span class="link-tag">Art. 2º</span>
+                                    <span class="link-tag">10 requisitos</span>
+                                    <span class="link-tag">Cumulativos</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-number">Estrutura</div>
+                            <div class="step-content">
+                                <div class="step-title">Controle Societário e Administração</div>
+                                <div class="step-description">
+                                    Identificação de controladores, participação qualificada (≥15% votante ou ≥10% total), validação de administradores, impedimentos objetivos
+                                </div>
+                                <div class="step-links">
+                                    <span class="link-tag">Art. 7º-8º</span>
+                                    <span class="link-tag">Art. 9º-11º</span>
+                                    <span class="link-tag">Reputação</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-number">Decisão</div>
+                            <div class="step-content">
+                                <div class="step-title">Autorização ou Negativa</div>
+                                <div class="step-description">
+                                    Deferimento → Autorização de funcionamento<br>
+                                    Arquivamento sem mérito → Alteração durante processo, prazos, não atendimento<br>
+                                    Indeferimento → Requisitos não atendidos, falsidade, problemas reputacionais
+                                </div>
+                                <div class="step-links">
+                                    <span class="link-tag">Art. 16</span>
+                                    <span class="link-tag">Art. 18</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="step-number">Pós-Autorização</div>
+                            <div class="step-content">
+                                <div class="step-title">Manutenção e Supervisionamento</div>
+                                <div class="step-description">
+                                    Novas autorizações para mudanças estruturais, envio contínuo de informações, inspeções, possibilidade de cancelamento por descumprimento
+                                </div>
+                                <div class="step-links">
+                                    <span class="link-tag">Art. 3º</span>
+                                    <span class="link-tag">Art. 21</span>
+                                    <span class="link-tag">9 atos posteriores</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="framework-grid">
+                    <div class="framework-card">
+                        <div class="card-number">01</div>
+                        <div class="card-label">Financeiro</div>
+                        <div class="card-title">Capacidade Econômica</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Patrimônio controladores</span>
+                            <span class="keyword">Contingências</span>
+                            <span class="keyword">Capitalização</span>
+                            <span class="keyword">Liquidez</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">02</div>
+                        <div class="card-label">Compliance</div>
+                        <div class="card-title">Origem Lícita</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Rastreabilidade</span>
+                            <span class="keyword">AML/CFT</span>
+                            <span class="keyword">Due diligence</span>
+                            <span class="keyword">Fontes verificáveis</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">03</div>
+                        <div class="card-label">Estratégia</div>
+                        <div class="card-title">Viabilidade Empreendimento</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Plano de negócios</span>
+                            <span class="keyword">Projeções</span>
+                            <span class="keyword">Break-even</span>
+                            <span class="keyword">Cenários</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">04</div>
+                        <div class="card-label">Tecnologia</div>
+                        <div class="card-title">Infraestrutura TI</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Arquitetura sistemas</span>
+                            <span class="keyword">Cibersegurança</span>
+                            <span class="keyword">Custódia cripto</span>
+                            <span class="keyword">Continuidade</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">05</div>
+                        <div class="card-label">Estrutura</div>
+                        <div class="card-title">Governança Corporativa</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Órgãos decisórios</span>
+                            <span class="keyword">Segregação funções</span>
+                            <span class="keyword">Controles internos</span>
+                            <span class="keyword">Alçadas</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">06</div>
+                        <div class="card-label">Integridade</div>
+                        <div class="card-title">Reputação Ilibada</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Histórico judicial</span>
+                            <span class="keyword">Processos</span>
+                            <span class="keyword">Impedimentos</span>
+                            <span class="keyword">Background check</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">07</div>
+                        <div class="card-label">Expertise</div>
+                        <div class="card-title">Conhecimento Negócio</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Experiência setorial</span>
+                            <span class="keyword">Dinâmica mercado</span>
+                            <span class="keyword">Gestão riscos</span>
+                            <span class="keyword">Track record</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">08</div>
+                        <div class="card-label">Qualificação</div>
+                        <div class="card-title">Capacitação Técnica</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Formação acadêmica</span>
+                            <span class="keyword">Certificações</span>
+                            <span class="keyword">Competências</span>
+                            <span class="keyword">Educação continuada</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">09</div>
+                        <div class="card-label">Patrimonial</div>
+                        <div class="card-title">Capital Mínimo</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Capital social</span>
+                            <span class="keyword">Integralização</span>
+                            <span class="keyword">Patrimônio referência</span>
+                            <span class="keyword">Adequação regulatória</span>
+                        </div>
+                    </div>
+
+                    <div class="framework-card">
+                        <div class="card-number">10</div>
+                        <div class="card-label">Operacional</div>
+                        <div class="card-title">Endereço Físico</div>
+                        <div class="card-keywords">
+                            <span class="keyword">Sede própria</span>
+                            <span class="keyword">Uso exclusivo</span>
+                            <span class="keyword">Infraestrutura real</span>
+                            <span class="keyword">Proibido coworking</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIAGNOSTIC VIEW -->
+        <div id="diagnostic" class="content-section">
+            <div style="padding: 2rem 0;">
+                <form id="diagnosticForm" class="diagnostic-form">
+                    <div class="form-section">
+                        <div class="form-section-title">Informações Básicas</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Tipo de Instituição</label>
+                            <select id="institutionType" class="form-select" required>
+                                <option value="">Selecione...</option>
+                                <option value="vasp">Sociedade Prestadora de Serviços de Ativos Virtuais (VASP)</option>
+                                <option value="corretora-cambio">Sociedade Corretora de Câmbio</option>
+                                <option value="corretora-tvm">Sociedade Corretora de Títulos e Valores Mobiliários</option>
+                                <option value="distribuidora-tvm">Sociedade Distribuidora de Títulos e Valores Mobiliários</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Status Operacional</label>
+                            <div class="form-radio-group">
+                                <label class="form-radio">
+                                    <input type="radio" name="status" value="nova" required>
+                                    <span>Nova instituição (não operante)</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="status" value="ativa">
+                                    <span>Já operante antes de 02/02/2026</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Capital Social Projetado (R$)</label>
+                            <input type="number" id="capital" class="form-input" placeholder="Ex: 1000000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">Capacidade Financeira</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Patrimônio líquido total dos controladores (R$)</label>
+                            <input type="number" id="patrimonio" class="form-input" placeholder="Ex: 5000000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Origem dos recursos para capitalização</label>
+                            <div class="form-checkbox-group">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="origem" value="lucros">
+                                    <span>Lucros acumulados</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="origem" value="investidores">
+                                    <span>Novos investidores</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="origem" value="controladores">
+                                    <span>Aportes controladores</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="origem" value="financiamento">
+                                    <span>Financiamento bancário</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Comprovação de origem dos recursos</label>
+                            <div class="form-radio-group">
+                                <label class="form-radio">
+                                    <input type="radio" name="comprovanteOrigem" value="completa" required>
+                                    <span>Documentação completa disponível</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="comprovanteOrigem" value="parcial">
+                                    <span>Documentação parcial</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="comprovanteOrigem" value="nenhuma">
+                                    <span>Sem documentação</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">Estrutura e Governança</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Estrutura de controle definida?</label>
+                            <div class="form-radio-group">
+                                <label class="form-radio">
+                                    <input type="radio" name="estruturaControle" value="sim" required>
+                                    <span>Sim, controladores identificados</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="estruturaControle" value="nao">
+                                    <span>Não definida ou em estruturação</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Administradores possuem:</label>
+                            <div class="form-checkbox-group">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="qualificacao" value="experiencia">
+                                    <span>Experiência no setor</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="qualificacao" value="formacao">
+                                    <span>Formação acadêmica relevante</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="qualificacao" value="certificacoes">
+                                    <span>Certificações técnicas</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="qualificacao" value="reputacao">
+                                    <span>Reputação ilibada verificada</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Endereço físico da sede</label>
+                            <div class="form-radio-group">
+                                <label class="form-radio">
+                                    <input type="radio" name="endereco" value="exclusivo" required>
+                                    <span>Imóvel próprio/locado exclusivo</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="endereco" value="coworking">
+                                    <span>Coworking ou espaço compartilhado</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="endereco" value="virtual">
+                                    <span>Endereço virtual</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">Planejamento e Viabilidade</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Plano de negócios</label>
+                            <div class="form-radio-group">
+                                <label class="form-radio">
+                                    <input type="radio" name="planoNegocios" value="completo" required>
+                                    <span>Completo com projeções 5 anos</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="planoNegocios" value="basico">
+                                    <span>Estrutura básica disponível</span>
+                                </label>
+                                <label class="form-radio">
+                                    <input type="radio" name="planoNegocios" value="nenhum">
+                                    <span>Não elaborado</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Infraestrutura de TI</label>
+                            <div class="form-checkbox-group">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="infraTI" value="arquitetura">
+                                    <span>Arquitetura de sistemas definida</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="infraTI" value="seguranca">
+                                    <span>Políticas de segurança implementadas</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="infraTI" value="continuidade">
+                                    <span>Plano de continuidade de negócios</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="infraTI" value="custodia">
+                                    <span>Estrutura de custódia (para VASPs)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">Impedimentos e Riscos</div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Administradores ou controladores possuem:</label>
+                            <div class="form-checkbox-group">
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="impedimentos" value="processos">
+                                    <span>Processos judiciais relevantes</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="impedimentos" value="condenacoes">
+                                    <span>Condenações (qualquer esfera)</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="impedimentos" value="inadimplencia">
+                                    <span>Histórico de inadimplência</span>
+                                </label>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" name="impedimentos" value="nenhum">
+                                    <span>Nenhum impedimento identificado</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn-primary">Gerar Diagnóstico</button>
+                        <button type="button" class="btn-secondary" onclick="resetForm()">Limpar</button>
+                    </div>
+                </form>
+
+                <div id="report" class="report">
+                    <div class="report-header">
+                        <div class="report-title">Diagnóstico de Conformidade</div>
+                        <div class="report-subtitle">Análise baseada na Resolução BCB 519/2025</div>
+                    </div>
+
+                    <div class="report-section">
+                        <div class="report-section-title">Avaliação de Requisitos</div>
+                        <div id="assessmentGrid" class="assessment-grid"></div>
+                    </div>
+
+                    <div class="report-section">
+                        <div class="report-section-title">Recomendações Prioritárias</div>
+                        <ul id="recommendationList" class="recommendation-list"></ul>
+                    </div>
+
+                    <div class="report-section">
+                        <div class="report-section-title">Estimativa de Timeline</div>
+                        <div id="timelineEstimate"></div>
+                    </div>
+
+                    <div>
+                        <button class="btn-secondary" onclick="window.print()">Imprimir Relatório</button>
+                        <button class="btn-secondary" onclick="switchView('diagnostic')">Nova Análise</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchView(view) {
+            // Update nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find the clicked button
+            const buttons = document.querySelectorAll('.nav-item');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(view)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update content
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(view).classList.add('active');
+
+            // Hide report if switching away
+            if (view === 'diagnostic') {
+                document.getElementById('report').classList.remove('active');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('diagnosticForm').reset();
+            document.getElementById('report').classList.remove('active');
+            
+            // Scroll back to form
+            document.getElementById('diagnosticForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('diagnosticForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            generateReport();
+        });
+
+        function generateReport() {
+            console.log('generateReport called');
+            
+            const formData = new FormData(document.getElementById('diagnosticForm'));
+            const data = {
+                institutionType: document.getElementById('institutionType').value,
+                status: formData.get('status'),
+                capital: parseInt(document.getElementById('capital').value),
+                patrimonio: parseInt(document.getElementById('patrimonio').value),
+                comprovanteOrigem: formData.get('comprovanteOrigem'),
+                estruturaControle: formData.get('estruturaControle'),
+                endereco: formData.get('endereco'),
+                planoNegocios: formData.get('planoNegocios'),
+                qualificacao: formData.getAll('qualificacao'),
+                infraTI: formData.getAll('infraTI'),
+                impedimentos: formData.getAll('impedimentos')
+            };
+
+            console.log('Form data:', data);
+
+            // Assessment logic
+            const assessments = [];
+            const recommendations = [];
+
+            // 1. Processo aplicável
+            const processoType = data.institutionType === 'vasp' && data.status === 'ativa' 
+                ? 'Processo bifásico (Art. 26) - Fase 1: reputação + capital; Fase 2: demais requisitos'
+                : 'Processo regular - Análise completa em fase única';
+            
+            assessments.push({
+                status: data.institutionType === 'vasp' && data.status === 'ativa' ? 'compliant' : 'attention',
+                label: data.institutionType === 'vasp' && data.status === 'ativa' ? 'Elegível' : 'Regular',
+                title: 'Tipo de Processo',
+                description: processoType
+            });
+
+            // 2. Capacidade financeira
+            const ratioPatrimonio = data.patrimonio / data.capital;
+            let capacidadeStatus = 'critical';
+            let capacidadeLabel = 'Insuficiente';
+            let capacidadeDesc = 'Patrimônio dos controladores inferior a 3x o capital social. BCB exige capacidade para contingências além da integralização.';
+            
+            if (ratioPatrimonio >= 5) {
+                capacidadeStatus = 'compliant';
+                capacidadeLabel = 'Adequado';
+                capacidadeDesc = 'Patrimônio dos controladores superior a 5x o capital social, demonstrando capacidade robusta para capitalização e contingências.';
+            } else if (ratioPatrimonio >= 3) {
+                capacidadeStatus = 'attention';
+                capacidadeLabel = 'Borderline';
+                capacidadeDesc = 'Patrimônio adequado mas próximo ao limite mínimo esperado. Recomenda-se reforço para demonstração de capacidade de contingência.';
+            }
+
+            assessments.push({
+                status: capacidadeStatus,
+                label: capacidadeLabel,
+                title: 'Capacidade Econômico-Financeira',
+                description: capacidadeDesc
+            });
+
+            if (capacidadeStatus !== 'compliant') {
+                recommendations.push({
+                    priority: 'Alta',
+                    title: 'Reforçar Capacidade Financeira dos Controladores',
+                    description: 'Buscar controladores adicionais ou reforço patrimonial para atingir mínimo de 5x o capital social.'
+                });
+            }
+
+            // 3. Origem lícita
+            let origemStatus = 'compliant';
+            let origemLabel = 'Conforme';
+            let origemDesc = 'Documentação completa de origem dos recursos disponível para análise do BCB.';
+
+            if (data.comprovanteOrigem === 'parcial') {
+                origemStatus = 'attention';
+                origemLabel = 'Incompleto';
+                origemDesc = 'Documentação parcial pode gerar diligências e atrasos. Necessário complementação antes do protocolo.';
+                recommendations.push({
+                    priority: 'Alta',
+                    title: 'Completar Documentação de Origem de Recursos',
+                    description: 'Rastrear e documentar integralmente a origem de todos os recursos. Incluir autorizações para acesso BCB a informações fiscais.'
+                });
+            } else if (data.comprovanteOrigem === 'nenhuma') {
+                origemStatus = 'critical';
+                origemLabel = 'Ausente';
+                origemDesc = 'Ausência de comprovação de origem lícita é causa de indeferimento (Art. 16, II, b). Requisito obrigatório.';
+                recommendations.push({
+                    priority: 'Crítica',
+                    title: 'Obter Documentação de Origem de Recursos',
+                    description: 'Prioridade máxima. Sem essa documentação o processo não pode ser protocolado com chances de aprovação.'
+                });
+            }
+
+            assessments.push({
+                status: origemStatus,
+                label: origemLabel,
+                title: 'Origem Lícita dos Recursos',
+                description: origemDesc
+            });
+
+            // 4. Viabilidade
+            let viabilidadeStatus = 'compliant';
+            let viabilidadeLabel = 'Adequado';
+            let viabilidadeDesc = 'Plano de negócios completo com projeções 5 anos, análise de cenários e demonstração de viabilidade.';
+
+            if (data.planoNegocios === 'basico') {
+                viabilidadeStatus = 'attention';
+                viabilidadeLabel = 'Básico';
+                viabilidadeDesc = 'Plano básico pode ser insuficiente. BCB exige projeções detalhadas, análise de sensibilidade e premissas fundamentadas.';
+                recommendations.push({
+                    priority: 'Média',
+                    title: 'Aprimorar Plano de Negócios',
+                    description: 'Desenvolver projeções financeiras completas (DRE, fluxo de caixa, balanço) para 5 anos com análise de cenários.'
+                });
+            } else if (data.planoNegocios === 'nenhum') {
+                viabilidadeStatus = 'critical';
+                viabilidadeLabel = 'Ausente';
+                viabilidadeDesc = 'Plano de negócios é requisito obrigatório (Art. 2º, §3º). BCB pode solicitar a qualquer momento (§4º).';
+                recommendations.push({
+                    priority: 'Alta',
+                    title: 'Elaborar Plano de Negócios Completo',
+                    description: 'Desenvolver plano abrangente incluindo: análise de mercado, modelo de receitas, estrutura de custos, projeções financeiras, análise de riscos.'
+                });
+            }
+
+            assessments.push({
+                status: viabilidadeStatus,
+                label: viabilidadeLabel,
+                title: 'Viabilidade Econômico-Financeira',
+                description: viabilidadeDesc
+            });
+
+            // 5. Infraestrutura TI
+            const infraTICount = data.infraTI.length;
+            let infraStatus = 'critical';
+            let infraLabel = 'Insuficiente';
+            let infraDesc = 'Infraestrutura de TI inadequada. Necessário arquitetura, segurança, continuidade e custódia (VASPs).';
+
+            if (infraTICount >= 3) {
+                infraStatus = 'compliant';
+                infraLabel = 'Adequado';
+                infraDesc = 'Infraestrutura de TI robusta com componentes essenciais implementados.';
+            } else if (infraTICount >= 2) {
+                infraStatus = 'attention';
+                infraLabel = 'Parcial';
+                infraDesc = 'Alguns componentes implementados mas estrutura incompleta. Completar antes de inspeção pré-operacional.';
+                recommendations.push({
+                    priority: 'Média',
+                    title: 'Completar Infraestrutura de TI',
+                    description: 'Implementar componentes faltantes: arquitetura de sistemas, políticas de segurança, plano de continuidade, custódia (VASPs).'
+                });
+            } else {
+                recommendations.push({
+                    priority: 'Alta',
+                    title: 'Desenvolver Infraestrutura de TI Completa',
+                    description: 'Prioridade alta. BCB pode exigir certificação técnica independente (Art. 2º, §5º). Considerar consultoria especializada.'
+                });
+            }
+
+            assessments.push({
+                status: infraStatus,
+                label: infraLabel,
+                title: 'Infraestrutura de Tecnologia',
+                description: infraDesc
+            });
+
+            // 6. Governança
+            let govStatus = 'attention';
+            let govLabel = 'Em estruturação';
+            let govDesc = 'Estrutura de controle em definição. Necessário finalizar antes do protocolo.';
+
+            if (data.estruturaControle === 'sim') {
+                govStatus = 'compliant';
+                govLabel = 'Definido';
+                govDesc = 'Estrutura de controle societário definida com controladores identificados.';
+            } else {
+                recommendations.push({
+                    priority: 'Alta',
+                    title: 'Definir Estrutura de Controle',
+                    description: 'Identificar controladores, participações qualificadas, cadeia de controle. Verificar elegibilidade (Art. 8º).'
+                });
+            }
+
+            assessments.push({
+                status: govStatus,
+                label: govLabel,
+                title: 'Governança e Controle',
+                description: govDesc
+            });
+
+            // 7. Reputação
+            const temImpedimento = data.impedimentos.some(i => i !== 'nenhum');
+            let reputacaoStatus = 'compliant';
+            let reputacaoLabel = 'Sem restrições';
+            let reputacaoDesc = 'Nenhum impedimento identificado para administradores e controladores.';
+
+            if (temImpedimento) {
+                reputacaoStatus = 'critical';
+                reputacaoLabel = 'Com restrições';
+                reputacaoDesc = 'Impedimentos identificados podem inviabilizar autorização. Análise caso a caso considerando relevância e gravidade (Art. 9º).';
+                recommendations.push({
+                    priority: 'Crítica',
+                    title: 'Avaliar Impedimentos de Reputação',
+                    description: 'Consultar advogado especializado para análise de impacto dos impedimentos. Considerar substituição de pessoas com restrições graves.'
+                });
+            }
+
+            assessments.push({
+                status: reputacaoStatus,
+                label: reputacaoLabel,
+                title: 'Reputação Ilibada',
+                description: reputacaoDesc
+            });
+
+            // 8. Qualificação
+            const qualCount = data.qualificacao.length;
+            let qualStatus = 'critical';
+            let qualLabel = 'Insuficiente';
+            let qualDesc = 'Administradores sem qualificação mínima necessária.';
+
+            if (qualCount >= 3) {
+                qualStatus = 'compliant';
+                qualLabel = 'Qualificado';
+                qualDesc = 'Administradores com experiência, formação e reputação adequadas.';
+            } else if (qualCount >= 2) {
+                qualStatus = 'attention';
+                qualLabel = 'Parcial';
+                qualDesc = 'Qualificação parcial. Reforçar experiência setorial ou certificações técnicas.';
+                recommendations.push({
+                    priority: 'Média',
+                    title: 'Reforçar Qualificação da Administração',
+                    description: 'Buscar certificações técnicas relevantes ou complementar equipe com profissionais experientes no setor.'
+                });
+            } else {
+                recommendations.push({
+                    priority: 'Alta',
+                    title: 'Estruturar Equipe Qualificada',
+                    description: 'Buscar administradores com experiência comprovada no setor financeiro/cripto e formação técnica adequada.'
+                });
+            }
+
+            assessments.push({
+                status: qualStatus,
+                label: qualLabel,
+                title: 'Capacitação Técnica',
+                description: qualDesc
+            });
+
+            // 9. Endereço
+            let enderecoStatus = 'compliant';
+            let enderecoLabel = 'Conforme';
+            let enderecoDesc = 'Endereço físico exclusivo atende aos requisitos (Art. 2º, §6º).';
+
+            if (data.endereco === 'coworking' || data.endereco === 'virtual') {
+                enderecoStatus = 'critical';
+                enderecoLabel = 'Não conforme';
+                enderecoDesc = 'Coworking e endereço virtual são expressamente vedados (Art. 2º, §6º). Causa de indeferimento.';
+                recommendations.push({
+                    priority: 'Crítica',
+                    title: 'Providenciar Endereço Físico Exclusivo',
+                    description: 'Obrigatório imóvel próprio ou locado de uso exclusivo. Coworking e endereço virtual são vedados.'
+                });
+            }
+
+            assessments.push({
+                status: enderecoStatus,
+                label: enderecoLabel,
+                title: 'Endereço Físico',
+                description: enderecoDesc
+            });
+
+            // Render assessments
+            const assessmentGrid = document.getElementById('assessmentGrid');
+            assessmentGrid.innerHTML = '';
+            assessments.forEach(assessment => {
+                assessmentGrid.innerHTML += `
+                    <div class="assessment-item ${assessment.status}">
+                        <div class="assessment-label ${assessment.status}">${assessment.label}</div>
+                        <div class="assessment-title">${assessment.title}</div>
+                        <div class="assessment-description">${assessment.description}</div>
+                    </div>
+                `;
+            });
+
+            // Render recommendations
+            const recommendationList = document.getElementById('recommendationList');
+            recommendationList.innerHTML = '';
+            if (recommendations.length === 0) {
+                recommendationList.innerHTML = '<li class="recommendation-item"><div class="recommendation-description">Nenhuma recomendação crítica identificada. Prosseguir com preparação de documentação completa.</div></li>';
+            } else {
+                recommendations.forEach(rec => {
+                    recommendationList.innerHTML += `
+                        <li class="recommendation-item">
+                            <div class="recommendation-priority">Prioridade ${rec.priority}</div>
+                            <div class="recommendation-title">${rec.title}</div>
+                            <div class="recommendation-description">${rec.description}</div>
+                        </li>
+                    `;
+                });
+            }
+
+            // Timeline estimate
+            const criticalIssues = assessments.filter(a => a.status === 'critical').length;
+            const attentionIssues = assessments.filter(a => a.status === 'attention').length;
+            
+            let timelinePhases = [];
+            
+            if (criticalIssues > 0) {
+                timelinePhases.push({
+                    phase: 'Adequação Estrutural',
+                    duration: `${criticalIssues * 2}-${criticalIssues * 3} meses - Resolução de ${criticalIssues} requisitos críticos`
+                });
+            }
+            
+            if (attentionIssues > 0) {
+                timelinePhases.push({
+                    phase: 'Complementação Documental',
+                    duration: `${attentionIssues}-${attentionIssues * 2} meses - Ajustes em ${attentionIssues} requisitos parciais`
+                });
+            }
+
+            if (data.status === 'ativa' && data.institutionType === 'vasp') {
+                timelinePhases.push({
+                    phase: 'Fase 1 - Análise BCB',
+                    duration: '2-4 meses - Reputação, capital e comprovação de atividade'
+                });
+                timelinePhases.push({
+                    phase: 'Fase 2 - Análise BCB',
+                    duration: '3-6 meses - Demais requisitos e inspeção pré-operacional'
+                });
+            } else {
+                timelinePhases.push({
+                    phase: 'Análise BCB',
+                    duration: '4-8 meses - Análise completa de todos os requisitos'
+                });
+            }
+
+            const timelineEstimate = document.getElementById('timelineEstimate');
+            timelineEstimate.innerHTML = '';
+            timelinePhases.forEach(phase => {
+                timelineEstimate.innerHTML += `
+                    <div class="timeline-estimate">
+                        <div class="timeline-phase">${phase.phase}</div>
+                        <div class="timeline-duration">${phase.duration}</div>
+                    </div>
+                `;
+            });
+
+            const totalMin = timelinePhases.length > 2 ? (criticalIssues * 2 + attentionIssues + 4) : 4;
+            const totalMax = timelinePhases.length > 2 ? (criticalIssues * 3 + attentionIssues * 2 + 8) : 8;
+
+            timelineEstimate.innerHTML += `
+                <div class="timeline-estimate" style="border-left-color: #1a1a1a; margin-top: 1rem;">
+                    <div class="timeline-phase">Timeline Total Estimado</div>
+                    <div class="timeline-duration">${totalMin}-${totalMax} meses até autorização final</div>
+                </div>
+            `;
+
+            // Show report
+            console.log('Showing report with', assessments.length, 'assessments and', recommendations.length, 'recommendations');
+            
+            const reportElement = document.getElementById('report');
+            reportElement.classList.add('active');
+            
+            // Small delay to ensure DOM is updated before scrolling
+            setTimeout(() => {
+                reportElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
